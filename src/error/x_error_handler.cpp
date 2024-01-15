@@ -3,7 +3,7 @@
 //
 
 #include <include/base/cef_logging.h>
-#include <cef/x_error_handler.h>
+#include <error/x_error_handler.h>
 
 int XErrorHandlerImpl(Display* display, XErrorEvent* event) {
     LOG(WARNING) << "X error received: "
