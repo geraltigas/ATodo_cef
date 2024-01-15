@@ -29,6 +29,9 @@ file(GLOB_RECURSE SOURCES
 
 add_executable(ATodo main.cpp
         ${SOURCES}
+        src/cef/x_error_handler.cpp
+        src/cef/x_error_handler.h
+        src/cef/browser_app.h
 )
 
 #/home/geraltigas/SoftwareNoReg/QCefView/.build/linux.x86_64/CefViewCore/output/Release/lib

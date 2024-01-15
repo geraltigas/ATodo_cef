@@ -7,11 +7,11 @@
 #include <sstream>
 #include <string>
 
+#include "client_manager.h"
 #include "include/views/cef_browser_view.h"
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_helpers.h"
 
-#include "shared/client_manager.h"
 
 namespace shared {
 

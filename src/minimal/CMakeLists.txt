@@ -9,8 +9,6 @@
 # Main executable sources.
 set(EXAMPLE_SRCS
         app_browser_minimal.cc
-        client_minimal.cc
-        client_minimal.h
 )
 
 if(OS_LINUX OR OS_WINDOWS)

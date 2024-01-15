@@ -20,15 +20,11 @@ set(SHARED_SRCS
         client_manager.h
         client_util.cc
         client_util.h
-        browser_util.cc
-        browser_util.h
-        main.h
         resource_util.cc
         resource_util.h
   )
 set(SHARED_SRCS_LINUX
         client_util_linux.cc
-        main_linux.cc
         resource_util_linux.cc
 )
 set(SHARED_SRCS_MAC
