@@ -1,43 +1,30 @@
 ﻿#include <QApplication>
-#include <QMainWindow>
-#include <include/cef_app.h>
-
-#include "cef/CefWidget.h"
+#include <QCefView.h>
+#include <QCefContext.h>
 
 int main(int argc, char *argv[]) {
-  // Initialize CEF.
-  const CefMainArgs main_args(argc, argv);
-  const CefRefPtr<CefApp> app(new MyCefApp);
-  const CefSettings settings;
-  // Set a custom cache path
-  CefString(&settings.root_cache_path) = "/tmp/cache";
+  QApplication app(argc, argv);
 
-  CefInitialize(main_args, settings, app.get(), nullptr);
+  // Create a main window to host the QCefView widget
+  QWidget mainWindow;
+  mainWindow.resize(800, 600);  // Set the size of the window
 
-  // Initialize Qt Application.
-  QApplication qtApp(argc, argv);
+  QCefConfig config;
 
-  // Create the main window.
-  QMainWindow mainWindow;
+  QCefContext cef_context = QCefContext::instance();
 
-  // Create and set the CefBrowserWidget as the central widget of the main window.
-  auto* cefBrowserWidget = new CefWidget(&mainWindow, 800, 600);
-  mainWindow.setCentralWidget(cefBrowserWidget);
+  QCefSetting *setting = new QCefSetting;
 
-  // set size window
-  mainWindow.resize(800, 600);
-  cefBrowserWidget->resize(800, 600);
+  // Create QCefView instance
+  QCefView* cefView = new QCefView("https://www.google.com",setting,&mainWindow);
+  cefView->resize(800, 600);  // Resize QCefView to fill the main window
 
-  // Show the main window.
+  // Load a web page
+  cefView->navigateToUrl("https://www.google.com");
+
+  // Show the main window with the QCefView widget
   mainWindow.show();
-  cefBrowserWidget->Cef.join();
-  // Execute the Qt application loop.
-  int qtResult = QApplication::exec();
 
-
-  // Shut down CEF after the Qt application exits.
-  CefShutdown();
-
-  return qtResult;
+  // Execute the application
+  return QApplication::exec();
 }
-

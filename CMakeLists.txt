@@ -12,19 +12,13 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-set(CEF_ROOT "/home/geraltigas/SoftwareNoReg/cef_binary")
+set(CEF_ROOT "/home/geraltigas/SoftwareNoReg/QCefView")
 
 # add include dir
-include_directories(${CEF_ROOT})
+include_directories(${CEF_ROOT}/include)
 include_directories("src/")
 
 add_executable(ATodo main.cpp
-        src/cef/test.cpp
-        src/cef/test.h
-        src/cef/CefWidget.cpp
-        src/cef/CefWidget.h
-        src/cef/SCefClient.cpp
-        src/cef/SCefClient.h
 )
 
 #/home/geraltigas/SoftwareNoReg/QCefView/.build/linux.x86_64/CefViewCore/output/Release/lib
@@ -32,50 +26,14 @@ target_link_libraries(ATodo
         Qt::Core
         Qt::Gui
         Qt::Widgets
-        "${CEF_ROOT}/build/libcef_dll_wrapper/libcef_dll_wrapper.a"
-        "${CMAKE_BINARY_DIR}/libcef.so"
+        "${CMAKE_BINARY_DIR}/libQCefView.so"
 )
 
-#/home/geraltigas/SoftwareNoReg/QCefView/.build/linux.x86_64/output/Release/bin
-#/home/geraltigas/SoftwareNoReg/QCefView/.build/linux.x86_64/output/Release/bin/resources
-# List of files to copy
-set(FILES_TO_COPY
-    "${CEF_ROOT}/Release/chrome-sandbox"
-#    "${CEF_ROOT}/.build/linux.x86_64/output/Release/bin/CefViewWing"
-#    "${CEF_ROOT}/.build/linux.x86_64/output/Release/bin/chrome-sandbox"
-    "${CEF_ROOT}/Release/libcef.so"
-    "${CEF_ROOT}/Release/libGLESv2.so"
-    "${CEF_ROOT}/Release/libEGL.so"
-    "${CEF_ROOT}/Resources/icudtl.dat"
-    "${CEF_ROOT}/Resources/chrome_100_percent.pak"
-    "${CEF_ROOT}/Resources/chrome_200_percent.pak"
-    "${CEF_ROOT}/Resources/resources.pak"
-    "${CEF_ROOT}/Release/snapshot_blob.bin"
-    "${CEF_ROOT}/Release/v8_context_snapshot.bin"
-    # Add more files as needed
-)
-
-# Destination directory - where the target will be built
-set(DESTINATION_DIR "${CMAKE_CURRENT_BINARY_DIR}")
-
-# Loop over each file and create a custom command
-foreach(FILE_TO_COPY IN LISTS FILES_TO_COPY)
-    add_custom_command(
-        TARGET ATodo POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${FILE_TO_COPY}
-                ${DESTINATION_DIR}
-        COMMENT "Copying ${FILE_TO_COPY} to executable directory"
-    )
-endforeach()
-
-#/home/geraltigas/SoftwareNoReg/QCefView/.build/linux.x86_64/output/Release/bin/resources
-# Set the directory or directories to copy
-set(DIR_TO_COPY "${CEF_ROOT}/Resources/locales")
+set(DIR_TO_COPY "${CEF_ROOT}/.build/linux.x86_64/output/Release/bin")
 
 # Set the destination directory
 # Assuming you want to copy to a directory inside your build directory
-set(DESTINATION_DIR "${CMAKE_BINARY_DIR}/locales")
+set(DESTINATION_DIR "${CMAKE_BINARY_DIR}")
 
 # Add a custom target for copying
 add_custom_target(copy_locales ALL)
