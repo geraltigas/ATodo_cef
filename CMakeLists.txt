@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.27)
 project(ATodo)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 COMPONENTS
         Core
@@ -25,6 +28,10 @@ file(GLOB_RECURSE SOURCES
 
 add_executable(ATodo main.cpp
         ${SOURCES}
+        src/cef/setup_cef.h
+        src/cef/setup_cef.cpp
+        src/widget/cef_widget.cpp
+        src/widget/cef_widget.h
 )
 
 #/home/geraltigas/SoftwareNoReg/QCefView/.build/linux.x86_64/CefViewCore/output/Release/lib
@@ -46,12 +53,16 @@ set(FILES_TO_COPY
     "${CEF_ROOT}/Release/libcef.so"
     "${CEF_ROOT}/Release/libGLESv2.so"
     "${CEF_ROOT}/Release/libEGL.so"
+    "${CEF_ROOT}/Release/libvk_swiftshader.so"
+    "${CEF_ROOT}/Release/libvulkan.so.1"
+    "${CEF_ROOT}/Release/vk_swiftshader_icd.json"
+    "${CEF_ROOT}/Release/snapshot_blob.bin"
+    "${CEF_ROOT}/Release/v8_context_snapshot.bin"
     "${CEF_ROOT}/Resources/icudtl.dat"
     "${CEF_ROOT}/Resources/chrome_100_percent.pak"
     "${CEF_ROOT}/Resources/chrome_200_percent.pak"
     "${CEF_ROOT}/Resources/resources.pak"
-    "${CEF_ROOT}/Release/snapshot_blob.bin"
-    "${CEF_ROOT}/Release/v8_context_snapshot.bin"
+
     # Add more files as needed
 )
 

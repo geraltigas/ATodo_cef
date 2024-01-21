@@ -12,3 +12,10 @@ bool ATodoClient::DoClose(CefRefPtr<CefBrowser> browser) {
     CefQuitMessageLoop();
     return false;
 }
+
+void ATodoClient::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
+    CEF_REQUIRE_UI_THREAD();
+    if (!browser->IsPopup()) {
+        parentWidget->setCefBrowser(browser);
+    }
+}

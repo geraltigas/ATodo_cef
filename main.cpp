@@ -1,26 +1,26 @@
-﻿#include <include/cef_app.h>
-#include <X11/Xlib.h>
-#include <error/x_error_handler.h>
-#include <cef/atodo_app.h>
+﻿#include <QApplication>
+#include "widget/cef_widget.h"
+#include "include/cef_app.h"
 
-int main(int argc, char ** argv) {
-  // init cef
-  const CefMainArgs main_args(argc, argv);
-  const CefRefPtr<CefApp> app = new BrowserApp();
-
-  // Install xlib error handlers so that the application won't be terminated
-  // on non-fatal errors.
-  XSetErrorHandler(XErrorHandlerImpl);
-  XSetIOErrorHandler(XIOErrorHandlerImpl);
+int main(int argc, char *argv[]) {
+  // Correctly initialize CefMainArgs for Linux
+  CefMainArgs main_args(argc, argv);
 
   CefSettings settings;
-  CefString(&settings.root_cache_path) = "/tmp/cache";
+  settings.no_sandbox = true;
+  settings.multi_threaded_message_loop = false;
+  settings.external_message_pump = true;
 
-  CefInitialize(main_args, settings, app, nullptr);
+  // Pass main_args instead of argc, argv directly
+  CefInitialize(main_args, settings, nullptr, nullptr);
 
-  CefRunMessageLoop();
+  QApplication app(argc, argv);
+
+  CefWidget* cefWidget = new CefWidget();
+  cefWidget->show();
+
+  int result = app.exec();
 
   CefShutdown();
-  return 0;
+  return result;
 }
-
