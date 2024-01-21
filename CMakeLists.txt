@@ -32,7 +32,6 @@ target_link_libraries(ATodo
         Qt6::Core
         Qt6::Gui
         Qt6::Widgets
-
 #        "${CEF_ROOT}/.build/linux.x86_64/output/Release/bin/libQCefView.so"
         "${CMAKE_BINARY_DIR}/libQCefView.so"
 )
@@ -45,6 +44,24 @@ set(DESTINATION_DIR "${CMAKE_BINARY_DIR}")
 
 # Add a custom target for copying
 add_custom_target(copy_locales ALL)
+
+# Add a custom command to copy the directory
+add_custom_command(
+    TARGET ATodo PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${DIR_TO_COPY}
+            ${DESTINATION_DIR}
+    COMMENT "Copying ${DIR_TO_COPY} to ${DESTINATION_DIR}"
+)
+
+set(DIR_TO_COPY "${CMAKE_SOURCE_DIR}/webrs")
+
+# Set the destination directory
+# Assuming you want to copy to a directory inside your build directory
+set(DESTINATION_DIR "${CMAKE_BINARY_DIR}")
+
+# Add a custom target for copying
+add_custom_target(copy_webrs ALL)
 
 # Add a custom command to copy the directory
 add_custom_command(

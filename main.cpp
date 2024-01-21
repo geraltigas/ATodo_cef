@@ -65,12 +65,11 @@ int main(int argc, char *argv[]) {
 
   setting.setWindowlessFrameRate(60);
   setting.setBackgroundColor(QColor::fromRgba(qRgba(255, 255, 220, 255)));
-  auto* view = new QCefView("https://www.google.com", &setting, w);
+  // ./webrs/atodo.html
+  auto* view = new QCefView("./webrs/atodo.html", &setting, w);
 
   w->setCentralWidget(view);
   w->resize(1024, 768);
   w->show();
-
   return QApplication::exec();
-
 }
