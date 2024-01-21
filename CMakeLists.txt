@@ -36,15 +36,15 @@ add_executable(ATodo main.cpp
 
 #/home/geraltigas/SoftwareNoReg/QCefView/.build/linux.x86_64/CefViewCore/output/Release/lib
 target_link_libraries(ATodo
+        "-Wl,--no-as-needed -L${CMAKE_BINARY_DIR} -lcef"
         Qt::Core
         Qt::Gui
         Qt::Widgets
         "${CEF_ROOT}/build/libcef_dll_wrapper/libcef_dll_wrapper.a"
 #        "${CEF_ROOT}/Release/libcef.so"
-        "${CMAKE_BINARY_DIR}/libcef.so"
+#        "${CMAKE_BINARY_DIR}/libcef.so"
 #        import x11 lib
         ${X11_LIBRARIES}
-
 )
 
 # List of files to copy
