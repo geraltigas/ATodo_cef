@@ -54,11 +54,11 @@ add_custom_command(
     COMMENT "Copying ${DIR_TO_COPY} to ${DESTINATION_DIR}"
 )
 
-set(DIR_TO_COPY "${CMAKE_SOURCE_DIR}/webrs")
+set(DIR_TO_COPY "${CMAKE_SOURCE_DIR}/webres")
 
 # Set the destination directory
 # Assuming you want to copy to a directory inside your build directory
-set(DESTINATION_DIR "${CMAKE_BINARY_DIR}")
+set(DESTINATION_DIR "${CMAKE_BINARY_DIR}/webres")
 
 # Add a custom target for copying
 add_custom_target(copy_webrs ALL)

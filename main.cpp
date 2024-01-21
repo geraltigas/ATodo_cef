@@ -2,6 +2,11 @@
 #include <QCefView.h>
 #include <QCefContext.h>
 #include <QMainWindow>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QDir>
+
+#define URL_ROOT "https://atodo"
 
 int main(int argc, char *argv[]) {
 #if (QT_VERSION <= QT_VERSION_CHECK(6, 0, 0))
@@ -15,7 +20,8 @@ int main(int argc, char *argv[]) {
 
   // create QApplication instance
   QApplication a(argc, argv);
-
+  QDir dir = QCoreApplication::applicationDirPath();
+  QString webResourceDir = /*QString("file://") +*/ QDir::toNativeSeparators(dir.filePath("webres"));
   // build QCefConfig
   QCefConfig config;
   // set user agent
@@ -56,20 +62,32 @@ int main(int argc, char *argv[]) {
   // the lifecycle of cefContext must be the same as QApplication instance
   QCefContext cefContext(&a, argc, argv, &config);
 
-  auto* w = new QMainWindow(nullptr);
-  w->setAttribute(Qt::WA_DeleteOnClose);
-
-  QCefSetting settings;
+  QCefContext::instance()->addLocalFolderResource(webResourceDir, URL_ROOT);
 
   QCefSetting setting;
 
   setting.setWindowlessFrameRate(60);
   setting.setBackgroundColor(QColor::fromRgba(qRgba(255, 255, 220, 255)));
-  // ./webrs/atodo.html
-  auto* view = new QCefView("./webrs/atodo.html", &setting, w);
+  QVBoxLayout* layout = new QVBoxLayout();
+  QWidget* w = new QWidget();
+  // ./webres/atodo.html
+  auto* view = new QCefView("https://atodo/atodo/index.html", &setting, w);
+  // add a button
+  view->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-  w->setCentralWidget(view);
-  w->resize(1024, 768);
+  auto* btn = new QPushButton("Hello");
+
+  layout->addWidget(view);
+  layout->addWidget(btn);
+
+  // set button callback
+    QObject::connect(btn, &QPushButton::clicked, [view]() {
+        view->showDevTools();
+    });
+
+
+  w->setLayout(layout);
   w->show();
+
   return QApplication::exec();
 }
